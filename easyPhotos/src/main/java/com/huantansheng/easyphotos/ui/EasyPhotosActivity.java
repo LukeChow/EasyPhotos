@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -21,6 +22,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.ScaleAnimation;
@@ -137,6 +139,21 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         }
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        statusBarDarkStyle();
+//    }
+//
+//    private void statusBarDarkStyle() {
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//        }
+//    }
+
     private void adaptationStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int statusColor = getWindow().getStatusBarColor();
@@ -158,7 +175,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         if (Setting.isOnlyVideo()) {
             tvTitle.setText(R.string.video_selection_easy_photos);
         }
-        findViewById(R.id.iv_second_menu).setVisibility(Setting.showPuzzleMenu || Setting.showCleanMenu || Setting.showOriginalMenu ? View.VISIBLE : View.GONE);
+//        findViewById(R.id.iv_second_menu).setVisibility(Setting.showPuzzleMenu || Setting.showCleanMenu || Setting.showOriginalMenu ? View.VISIBLE : View.GONE);
         setClick(R.id.iv_back);
     }
 
@@ -353,6 +370,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
     }
 
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -844,8 +862,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             tvDone.setVisibility(View.VISIBLE);
             tvPreview.setVisibility(View.VISIBLE);
         }
-        tvDone.setText(getString(R.string.selector_action_done_easy_photos, Result.count(),
-                Setting.count));
+        tvDone.setText("完成("+Result.count()+")");
     }
 
     @Override

@@ -74,7 +74,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         if (holder instanceof PhotoViewHolder) {
             final Photo item = (Photo) dataList.get(p);
             if (item == null) return;
-            updateSelector(((PhotoViewHolder) holder).tvSelector, item.selected, item, p);
+            updateSelector((PhotoViewHolder) holder, item.selected, item, p);
             String path = item.path;
             Uri uri = item.uri;
             String type = item.type;
@@ -138,8 +138,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
                             item.selected = false;
                             return;
                         }
-                        ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
+                        ((PhotoViewHolder) holder).tvSelector.setBackgroundResource(R.drawable.zuopin_tupian_xzbd);
                         ((PhotoViewHolder) holder).tvSelector.setText(String.valueOf(Result.count()));
+                        ((PhotoViewHolder) holder).photoCover.setVisibility(View.VISIBLE);
                         if (Result.count() == Setting.count) {
                             unable = true;
                             notifyDataSetChanged();
@@ -218,26 +219,30 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         listener.onSelectorChanged();
     }
 
-    private void updateSelector(TextView tvSelector, boolean selected, Photo photo, int position) {
+    private void updateSelector(PhotoViewHolder holder, boolean selected, Photo photo, int position) {
+        TextView tvSelector = holder.tvSelector;
         if (selected) {
             String number = Result.getSelectorNumber(photo);
             if (number.equals("0")) {
-                tvSelector.setBackgroundResource(R.drawable.bg_select_false_easy_photos);
+                tvSelector.setBackgroundResource(R.drawable.zuopin_tupian_weixuanzhong);
+                holder.photoCover.setVisibility(View.INVISIBLE);
                 tvSelector.setText(null);
                 return;
             }
             tvSelector.setText(number);
-            tvSelector.setBackgroundResource(R.drawable.bg_select_true_easy_photos);
+            tvSelector.setBackgroundResource(R.drawable.zuopin_tupian_xzbd);
+            holder.photoCover.setVisibility(View.VISIBLE);
             if (isSingle) {
                 singlePosition = position;
                 tvSelector.setText("1");
             }
         } else {
             if (unable) {
-                tvSelector.setBackgroundResource(R.drawable.bg_select_false_unable_easy_photos);
+                tvSelector.setBackgroundResource(R.drawable.zuopin_tupian_weixuanzhong);
             } else {
-                tvSelector.setBackgroundResource(R.drawable.bg_select_false_easy_photos);
+                tvSelector.setBackgroundResource(R.drawable.zuopin_tupian_weixuanzhong);
             }
+            holder.photoCover.setVisibility(View.INVISIBLE);
             tvSelector.setText(null);
         }
     }
@@ -289,6 +294,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         final TextView tvSelector;
         final View vSelector;
         final TextView tvType;
+        final View photoCover;
 
         PhotoViewHolder(View itemView) {
             super(itemView);
@@ -296,6 +302,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             this.tvSelector = itemView.findViewById(R.id.tv_selector);
             this.vSelector = itemView.findViewById(R.id.v_selector);
             this.tvType = itemView.findViewById(R.id.tv_type);
+            this.photoCover = itemView.findViewById(R.id.photo_cover);
         }
     }
 }
